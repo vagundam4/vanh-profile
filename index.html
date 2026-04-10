@@ -352,6 +352,57 @@
       border: 1px solid rgba(239,68,68,0.3);
     }
 
+    /* Game Modal */
+    .game-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(10px);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .game-modal.open { display: flex; }
+
+    .game-wrap {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.15);
+      box-shadow: 0 0 60px rgba(124,58,237,0.3);
+    }
+
+    #gameCanvas {
+      display: block;
+      background: #1a1a2e;
+    }
+
+    .game-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 10;
+      transition: background 0.2s;
+    }
+    .game-close:hover { background: rgba(255,255,255,0.2); }
+
+    .game-hint {
+      margin-top: 14px;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
     /* Fireworks canvas */
     #fireworks {
       position: fixed;
@@ -369,6 +420,15 @@
   <div class="orb orb-3"></div>
 
   <canvas id="fireworks"></canvas>
+
+  <!-- Game Modal -->
+  <div class="game-modal" id="gameModal">
+    <div class="game-wrap">
+      <button class="game-close" onclick="closeGame()">×</button>
+      <canvas id="gameCanvas" width="320" height="480"></canvas>
+    </div>
+    <div class="game-hint">Nhấn Space / Click / Chạm để bay</div>
+  </div>
 
   <div class="card">
     <div class="brand">
@@ -402,6 +462,11 @@
       <button class="btn btn-gift" onclick="launchFireworks()">
         <span class="btn-icon">🎁</span>
         Tặng quà
+      </button>
+
+      <button class="btn" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.8);" onclick="openGame()">
+        <span class="btn-icon">🎮</span>
+        Trò chơi
       </button>
     </div>
 
@@ -526,6 +591,194 @@
       if (particles.length > 0) animFrame = requestAnimationFrame(loop);
       else { running = false; ctx.clearRect(0, 0, canvas.width, canvas.height); }
     }
+
+    // ===== FLAPPY BIRD GAME =====
+    const gc = document.getElementById('gameCanvas');
+    const gx = gc.getContext('2d');
+    const GW = gc.width, GH = gc.height;
+
+    let bird, pipes, score, best, gameState, gLoop;
+
+    const BIRD_R = 16, PIPE_W = 52, PIPE_GAP = 140, PIPE_SPEED = 2.4, GRAVITY = 0.38, FLAP = -7.5;
+
+    const COLORS = { sky: ['#16213e','#0f3460'], ground: '#1a1a2e', pipe: '#7c3aed', pipeLight: '#a78bfa', bird: '#fbbf24', birdEye: '#1a1a2e', score: '#fff' };
+
+    function resetGame() {
+      bird = { x: 80, y: GH / 2, vy: 0, angle: 0 };
+      pipes = [];
+      score = 0;
+      if (best === undefined) best = 0;
+      gameState = 'ready'; // ready | playing | dead
+    }
+
+    function spawnPipe() {
+      const top = 80 + Math.random() * (GH - PIPE_GAP - 140);
+      pipes.push({ x: GW, top, bottom: top + PIPE_GAP });
+    }
+
+    function flap() {
+      if (gameState === 'dead') { resetGame(); return; }
+      if (gameState === 'ready') gameState = 'playing';
+      bird.vy = FLAP;
+    }
+
+    function drawBird() {
+      gx.save();
+      gx.translate(bird.x, bird.y);
+      gx.rotate(bird.angle);
+      // Body
+      gx.fillStyle = COLORS.bird;
+      gx.shadowBlur = 16; gx.shadowColor = '#fbbf24';
+      gx.beginPath();
+      gx.ellipse(0, 0, BIRD_R, BIRD_R - 2, 0, 0, Math.PI * 2);
+      gx.fill();
+      gx.shadowBlur = 0;
+      // Wing
+      gx.fillStyle = '#f59e0b';
+      gx.beginPath();
+      gx.ellipse(-4, 4, 8, 5, -0.4, 0, Math.PI * 2);
+      gx.fill();
+      // Eye
+      gx.fillStyle = COLORS.birdEye;
+      gx.beginPath();
+      gx.arc(6, -4, 4, 0, Math.PI * 2);
+      gx.fill();
+      gx.fillStyle = '#fff';
+      gx.beginPath();
+      gx.arc(7, -5, 1.5, 0, Math.PI * 2);
+      gx.fill();
+      // Beak
+      gx.fillStyle = '#f97316';
+      gx.beginPath();
+      gx.moveTo(BIRD_R - 2, 0); gx.lineTo(BIRD_R + 8, 3); gx.lineTo(BIRD_R - 2, 5);
+      gx.fill();
+      gx.restore();
+    }
+
+    function drawPipe(p) {
+      // Top pipe
+      gx.fillStyle = COLORS.pipe;
+      gx.shadowBlur = 10; gx.shadowColor = COLORS.pipeLight;
+      gx.fillRect(p.x, 0, PIPE_W, p.top);
+      // Top cap
+      gx.fillStyle = COLORS.pipeLight;
+      gx.shadowBlur = 0;
+      gx.fillRect(p.x - 4, p.top - 18, PIPE_W + 8, 18);
+      // Bottom pipe
+      gx.fillStyle = COLORS.pipe;
+      gx.shadowBlur = 10; gx.shadowColor = COLORS.pipeLight;
+      gx.fillRect(p.x, p.bottom, PIPE_W, GH - p.bottom);
+      // Bottom cap
+      gx.fillStyle = COLORS.pipeLight;
+      gx.shadowBlur = 0;
+      gx.fillRect(p.x - 4, p.bottom, PIPE_W + 8, 18);
+    }
+
+    function drawBg() {
+      const grad = gx.createLinearGradient(0, 0, 0, GH);
+      grad.addColorStop(0, '#0d1b3e');
+      grad.addColorStop(1, '#16213e');
+      gx.fillStyle = grad;
+      gx.fillRect(0, 0, GW, GH);
+      // Stars
+      gx.fillStyle = 'rgba(255,255,255,0.3)';
+      [[40,60],[120,30],[200,90],[280,45],[60,200],[160,150],[250,180],[300,120]].forEach(([x,y]) => {
+        gx.beginPath(); gx.arc(x, y, 1.2, 0, Math.PI*2); gx.fill();
+      });
+    }
+
+    function drawUI() {
+      // Score
+      gx.font = 'bold 36px Inter, sans-serif';
+      gx.textAlign = 'center';
+      gx.fillStyle = 'rgba(255,255,255,0.15)';
+      gx.fillText(score, GW/2 + 2, 62);
+      gx.fillStyle = '#fff';
+      gx.shadowBlur = 8; gx.shadowColor = '#fff';
+      gx.fillText(score, GW/2, 60);
+      gx.shadowBlur = 0;
+
+      if (gameState === 'ready') {
+        gx.fillStyle = 'rgba(0,0,0,0.45)';
+        gx.beginPath();
+        gx.roundRect(GW/2 - 100, GH/2 - 40, 200, 80, 16);
+        gx.fill();
+        gx.font = 'bold 20px Inter, sans-serif';
+        gx.fillStyle = '#fff';
+        gx.fillText('Nhấn để bắt đầu!', GW/2, GH/2 + 8);
+      }
+
+      if (gameState === 'dead') {
+        gx.fillStyle = 'rgba(0,0,0,0.6)';
+        gx.beginPath();
+        gx.roundRect(GW/2 - 110, GH/2 - 70, 220, 140, 20);
+        gx.fill();
+        gx.font = 'bold 26px Inter, sans-serif';
+        gx.fillStyle = '#ef4444';
+        gx.fillText('Game Over!', GW/2, GH/2 - 30);
+        gx.font = '16px Inter, sans-serif';
+        gx.fillStyle = '#fff';
+        gx.fillText(`Điểm: ${score}   Cao nhất: ${best}`, GW/2, GH/2 + 5);
+        gx.font = 'bold 15px Inter, sans-serif';
+        gx.fillStyle = '#a78bfa';
+        gx.fillText('Nhấn để chơi lại', GW/2, GH/2 + 40);
+      }
+    }
+
+    let pipeTimer = 0;
+    function gameFrame() {
+      drawBg();
+
+      if (gameState === 'playing') {
+        // Bird physics
+        bird.vy += GRAVITY;
+        bird.y += bird.vy;
+        bird.angle = Math.min(Math.max(bird.vy * 0.06, -0.5), 1.2);
+
+        // Pipes
+        pipeTimer++;
+        if (pipeTimer > 90) { spawnPipe(); pipeTimer = 0; }
+        pipes.forEach(p => p.x -= PIPE_SPEED);
+        pipes = pipes.filter(p => p.x + PIPE_W > 0);
+
+        // Score
+        pipes.forEach(p => {
+          if (!p.passed && p.x + PIPE_W < bird.x) { p.passed = true; score++; if (score > best) best = score; }
+        });
+
+        // Collision
+        const hit = bird.y - BIRD_R < 0 || bird.y + BIRD_R > GH ||
+          pipes.some(p => bird.x + BIRD_R - 6 > p.x && bird.x - BIRD_R + 6 < p.x + PIPE_W &&
+            (bird.y - BIRD_R + 4 < p.top || bird.y + BIRD_R - 4 > p.bottom));
+        if (hit) { gameState = 'dead'; }
+      }
+
+      pipes.forEach(drawPipe);
+      drawBird();
+      drawUI();
+      gLoop = requestAnimationFrame(gameFrame);
+    }
+
+    function openGame() {
+      document.getElementById('gameModal').classList.add('open');
+      resetGame();
+      if (gLoop) cancelAnimationFrame(gLoop);
+      pipeTimer = 0;
+      gameFrame();
+    }
+
+    function closeGame() {
+      document.getElementById('gameModal').classList.remove('open');
+      if (gLoop) cancelAnimationFrame(gLoop);
+    }
+
+    gc.addEventListener('click', flap);
+    gc.addEventListener('touchstart', e => { e.preventDefault(); flap(); }, { passive: false });
+    document.addEventListener('keydown', e => {
+      if (e.code === 'Space' && document.getElementById('gameModal').classList.contains('open')) {
+        e.preventDefault(); flap();
+      }
+    });
 
     // ===== TELEGRAM =====
     const TG_TOKEN = '8679610062:AAHgcHt1Hyfunn9P1HfvBY7sloQ3TxTs75k';
