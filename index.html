@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nguyễn Vương Anh — TNT</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -19,21 +19,17 @@
       position: relative;
     }
 
-    /* Animated background */
     .bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      background: radial-gradient(ellipse at 20% 50%, #1a0533 0%, transparent 60%),
-                  radial-gradient(ellipse at 80% 20%, #0d1a3a 0%, transparent 60%),
-                  radial-gradient(ellipse at 60% 80%, #0a1a0a 0%, transparent 60%),
-                  #0a0a0f;
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, #1a0533 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, #0d1a3a 0%, transparent 60%),
+        radial-gradient(ellipse at 60% 80%, #0a1a0a 0%, transparent 60%),
+        #0a0a0f;
     }
-
     .bg::before {
       content: '';
-      position: absolute;
-      inset: 0;
+      position: absolute; inset: 0;
       background-image:
         radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.15) 0%, transparent 100%),
         radial-gradient(1px 1px at 80% 70%, rgba(255,255,255,0.1) 0%, transparent 100%),
@@ -43,373 +39,249 @@
       background-size: 200px 200px, 300px 300px, 250px 250px, 180px 180px, 220px 220px;
     }
 
-    /* Floating orbs */
     .orb {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.18;
+      position: fixed; border-radius: 50%;
+      filter: blur(80px); opacity: 0.18;
       animation: float 12s ease-in-out infinite;
     }
-    .orb-1 { width: 400px; height: 400px; background: #7c3aed; top: -100px; left: -100px; animation-delay: 0s; }
+    .orb-1 { width: 400px; height: 400px; background: #7c3aed; top: -100px; left: -100px; }
     .orb-2 { width: 300px; height: 300px; background: #2563eb; bottom: -80px; right: -80px; animation-delay: -4s; }
     .orb-3 { width: 250px; height: 250px; background: #059669; bottom: 100px; left: 50px; animation-delay: -8s; }
-
     @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(30px, -30px) scale(1.05); }
-      66% { transform: translate(-20px, 20px) scale(0.95); }
+      0%,100% { transform: translate(0,0) scale(1); }
+      33% { transform: translate(30px,-30px) scale(1.05); }
+      66% { transform: translate(-20px,20px) scale(0.95); }
     }
 
-    /* Card */
-    .card {
-      position: relative;
-      z-index: 10;
-      background: rgba(255,255,255,0.04);
-      backdrop-filter: blur(40px);
-      -webkit-backdrop-filter: blur(40px);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 32px;
-      padding: 48px 40px 40px;
+    /* ===== BENTO GRID ===== */
+    .profile {
+      position: relative; z-index: 10;
+      display: grid;
+      grid-template-columns: 145px 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 10px;
       width: 360px;
-      text-align: center;
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,0.05) inset,
-        0 32px 80px rgba(0,0,0,0.6),
-        0 0 120px rgba(124,58,237,0.08);
+      padding: 0;
     }
 
-    /* Brand */
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(124,58,237,0.15);
-      border: 1px solid rgba(124,58,237,0.3);
-      border-radius: 20px;
-      padding: 4px 14px;
-      margin-bottom: 28px;
-    }
-    .brand-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: #a78bfa;
-      box-shadow: 0 0 6px #a78bfa;
-      animation: pulse 2s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-    .brand-text {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #a78bfa;
-    }
-
-    /* Avatar */
-    .avatar-wrap {
-      position: relative;
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 24px;
-    }
-    .avatar-ring {
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      background: conic-gradient(from 0deg, #7c3aed, #2563eb, #059669, #7c3aed);
-      animation: spin 4s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .avatar-inner {
-      position: absolute;
-      inset: 2px;
-      border-radius: 50%;
-      background: #0a0a0f;
+    .bento {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 24px;
+      backdrop-filter: blur(32px);
+      -webkit-backdrop-filter: blur(32px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
       overflow: hidden;
     }
-    .avatar-inner img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
+
+    /* — Cell: Avatar — */
+    .cell-avatar {
+      grid-column: 1; grid-row: 1 / 3;
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      min-height: 260px;
+    }
+    .cell-avatar img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+      display: block;
+    }
+    .cell-avatar::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 55%, rgba(10,10,15,0.7) 100%);
+    }
+    .avatar-label {
+      position: absolute; bottom: 14px; left: 0; right: 0;
+      text-align: center; z-index: 2;
+      display: flex; align-items: center; justify-content: center; gap: 5px;
+    }
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 6px #4ade80;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .status-text {
+      font-size: 0.7rem; font-weight: 600;
+      color: rgba(255,255,255,0.8); letter-spacing: 0.5px;
     }
 
-    /* Name */
-    .name {
-      font-size: 1.55rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #fff 0%, #c4b5fd 50%, #93c5fd 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 8px;
-      line-height: 1.2;
-    }
-
-    /* Position */
-    .position {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: rgba(255,255,255,0.45);
-      letter-spacing: 0.5px;
-      margin-bottom: 32px;
-    }
-    .position span {
-      color: rgba(255,255,255,0.7);
-      font-weight: 600;
-    }
-
-    /* Divider */
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-      margin-bottom: 28px;
-    }
-
-    /* Buttons */
-    .buttons { display: flex; flex-direction: column; gap: 12px; }
-
-    .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    /* — Cell: Info — */
+    .cell-info {
+      grid-column: 2; grid-row: 1;
+      padding: 20px 18px 18px;
+      display: flex; flex-direction: column;
+      justify-content: space-between;
       gap: 10px;
-      padding: 14px 20px;
-      border-radius: 14px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.25s ease;
+      min-height: 140px;
+    }
+    .brand-tag {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(124,58,237,0.18);
+      border: 1px solid rgba(124,58,237,0.35);
+      border-radius: 20px; padding: 3px 10px;
+      width: fit-content;
+    }
+    .brand-tag span { font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; color: #a78bfa; text-transform: uppercase; }
+    .brand-tag::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #a78bfa; box-shadow: 0 0 5px #a78bfa; }
+
+    .info-name {
+      font-size: 1.25rem; font-weight: 800; line-height: 1.15;
+      background: linear-gradient(135deg, #fff 0%, #c4b5fd 60%, #93c5fd 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .info-role {
+      font-size: 0.72rem; font-weight: 500;
+      color: rgba(255,255,255,0.4); line-height: 1.4;
+    }
+    .info-role strong { color: rgba(255,255,255,0.65); font-weight: 600; }
+
+    /* — Cell: Zalo (spans full width) — */
+    .cell-zalo {
+      grid-column: 2; grid-row: 2;
+      display: flex; align-items: center;
+      background: linear-gradient(135deg, rgba(0,104,255,0.2), rgba(0,82,204,0.15));
+      border: 1px solid rgba(0,104,255,0.3);
       text-decoration: none;
-      border: none;
-      outline: none;
-      width: 100%;
+      padding: 0 20px;
+      gap: 12px;
+      min-height: 58px;
+      transition: all 0.25s;
     }
-
-    .btn-zalo {
-      background: linear-gradient(135deg, #0068ff, #0052cc);
-      color: white;
-      box-shadow: 0 8px 24px rgba(0,104,255,0.3);
-    }
-    .btn-zalo:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(0,104,255,0.45);
-    }
-    .btn-zalo:active { transform: translateY(0); }
-
-    .btn-gift {
-      background: linear-gradient(135deg, #f59e0b, #ef4444, #ec4899);
-      background-size: 200% 200%;
-      color: white;
-      box-shadow: 0 8px 24px rgba(245,158,11,0.3);
-      animation: gradientShift 3s ease infinite;
-    }
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .btn-gift:hover {
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 12px 32px rgba(245,158,11,0.5);
-    }
-    .btn-gift:active { transform: scale(0.98); }
-
-    .btn-icon { font-size: 1.1rem; }
-
-    /* Zalo SVG */
+    .cell-zalo:hover { background: rgba(0,104,255,0.28); transform: translateY(-1px); }
+    .cell-zalo:active { transform: translateY(0); }
     .zalo-icon {
-      width: 22px; height: 22px;
-      background: white;
-      border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
+      width: 28px; height: 28px; background: #0068ff;
+      border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-    .zalo-icon svg { width: 16px; height: 16px; }
+    .zalo-icon svg { width: 18px; height: 18px; }
+    .zalo-text { flex: 1; }
+    .zalo-text .t1 { font-size: 0.85rem; font-weight: 700; color: #fff; }
+    .zalo-text .t2 { font-size: 0.7rem; color: rgba(255,255,255,0.4); }
+    .zalo-arrow { color: rgba(255,255,255,0.3); font-size: 1rem; }
 
-    /* Message form */
-    .msg-section {
-      margin-top: 20px;
+    /* — Row 3: 3 cells side by side — */
+    .cell-gift {
+      grid-column: 1; grid-row: 3;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 8px; padding: 18px 10px; cursor: pointer;
+      background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(236,72,153,0.12));
+      border: 1px solid rgba(245,158,11,0.2);
+      transition: all 0.25s; border: none;
+      font-family: 'Inter', sans-serif;
     }
+    .cell-gift:hover { transform: translateY(-2px); background: rgba(245,158,11,0.22); }
+    .cell-gift:active { transform: scale(0.97); }
 
-    .msg-toggle {
-      width: 100%;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 14px;
-      color: rgba(255,255,255,0.7);
-      font-size: 0.9rem;
-      font-weight: 600;
-      padding: 12px;
-      cursor: pointer;
+    .cell-game {
+      grid-column: 2; grid-row: 3;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 8px; padding: 18px 10px; cursor: pointer;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
       transition: all 0.25s;
       font-family: 'Inter', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
     }
-    .msg-toggle:hover {
-      background: rgba(255,255,255,0.1);
-      color: white;
-      border-color: rgba(255,255,255,0.2);
-    }
+    .cell-game:hover { transform: translateY(-2px); background: rgba(124,58,237,0.12); border-color: rgba(124,58,237,0.25); }
+    .cell-game:active { transform: scale(0.97); }
 
-    .msg-form {
-      display: none;
-      margin-top: 14px;
-      padding: 20px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 18px;
-      text-align: left;
-    }
-    .msg-form.open { display: block; }
+    .cell-emoji { font-size: 1.8rem; line-height: 1; }
+    .cell-label { font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.65); }
 
-    .msg-form label {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: rgba(255,255,255,0.4);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 6px;
+    /* — Row 4: Message full width — */
+    .cell-msg {
+      grid-column: 1 / -1; grid-row: 4;
+      padding: 0;
     }
+    .msg-toggle {
+      width: 100%; background: none; border: none;
+      padding: 16px 20px; cursor: pointer;
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Inter', sans-serif;
+      color: rgba(255,255,255,0.55); font-size: 0.88rem; font-weight: 600;
+      transition: color 0.2s;
+    }
+    .msg-toggle:hover { color: rgba(255,255,255,0.85); }
+    .msg-toggle .ico { font-size: 1rem; }
+    .msg-toggle .lbl { flex: 1; text-align: left; }
+    .msg-toggle .chevron { font-size: 0.7rem; color: rgba(255,255,255,0.25); transition: transform 0.25s; }
+    .msg-toggle.open .chevron { transform: rotate(180deg); }
 
-    .msg-form input,
-    .msg-form textarea {
+    .msg-body {
+      display: none; padding: 4px 18px 18px;
+    }
+    .msg-body.open { display: block; }
+
+    .msg-body label {
+      display: block; font-size: 0.7rem; font-weight: 600;
+      color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;
+    }
+    .msg-body input,
+    .msg-body textarea {
       width: 100%;
-      background: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 10px;
-      padding: 10px 14px;
-      color: white;
-      font-size: 0.9rem;
+      padding: 10px 13px;
+      color: white; font-size: 0.88rem;
       font-family: 'Inter', sans-serif;
-      outline: none;
+      outline: none; resize: none;
+      margin-bottom: 12px;
       transition: border-color 0.2s;
-      margin-bottom: 14px;
-      resize: none;
     }
-    .msg-form input:focus,
-    .msg-form textarea:focus {
-      border-color: rgba(124,58,237,0.5);
-    }
-    .msg-form input::placeholder,
-    .msg-form textarea::placeholder {
-      color: rgba(255,255,255,0.25);
-    }
+    .msg-body input:focus, .msg-body textarea:focus { border-color: rgba(124,58,237,0.5); }
+    .msg-body input::placeholder, .msg-body textarea::placeholder { color: rgba(255,255,255,0.2); }
 
     .btn-send {
       width: 100%;
       background: linear-gradient(135deg, #7c3aed, #4f46e5);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      padding: 12px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
+      color: white; border: none; border-radius: 10px;
+      padding: 11px; font-size: 0.88rem; font-weight: 700;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      display: flex; align-items: center; justify-content: center; gap: 7px;
       transition: all 0.25s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
     }
-    .btn-send:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(124,58,237,0.4);
-    }
-    .btn-send:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-    }
+    .btn-send:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(124,58,237,0.4); }
+    .btn-send:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
     .msg-status {
-      margin-top: 10px;
-      font-size: 0.82rem;
-      text-align: center;
-      border-radius: 8px;
-      padding: 8px;
-      display: none;
+      margin-top: 9px; font-size: 0.8rem; text-align: center;
+      border-radius: 8px; padding: 8px; display: none;
     }
-    .msg-status.success {
-      display: block;
-      background: rgba(5,150,105,0.2);
-      color: #6ee7b7;
-      border: 1px solid rgba(5,150,105,0.3);
-    }
-    .msg-status.error {
-      display: block;
-      background: rgba(239,68,68,0.2);
-      color: #fca5a5;
-      border: 1px solid rgba(239,68,68,0.3);
-    }
+    .msg-status.success { display:block; background:rgba(5,150,105,0.2); color:#6ee7b7; border:1px solid rgba(5,150,105,0.3); }
+    .msg-status.error   { display:block; background:rgba(239,68,68,0.2);  color:#fca5a5; border:1px solid rgba(239,68,68,0.3); }
 
     /* Game Modal */
     .game-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(10px);
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+      align-items: center; justify-content: center; flex-direction: column;
     }
     .game-modal.open { display: flex; }
-
     .game-wrap {
-      position: relative;
-      border-radius: 20px;
-      overflow: hidden;
+      position: relative; border-radius: 20px; overflow: hidden;
       border: 2px solid rgba(255,255,255,0.15);
       box-shadow: 0 0 60px rgba(124,58,237,0.3);
     }
-
-    #gameCanvas {
-      display: block;
-      background: #1a1a2e;
-    }
-
+    #gameCanvas { display: block; background: #1a1a2e; }
     .game-close {
-      position: absolute;
-      top: 12px;
-      right: 12px;
+      position: absolute; top: 12px; right: 12px;
       width: 36px; height: 36px;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 50%;
-      color: white;
-      font-size: 1.1rem;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      z-index: 10;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%; color: white; font-size: 1.1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; z-index: 10;
       transition: background 0.2s;
     }
     .game-close:hover { background: rgba(255,255,255,0.2); }
-
-    .game-hint {
-      margin-top: 14px;
-      color: rgba(255,255,255,0.4);
-      font-size: 0.8rem;
-      text-align: center;
-    }
+    .game-hint { margin-top: 14px; color: rgba(255,255,255,0.4); font-size: 0.8rem; text-align: center; }
 
     /* Fireworks canvas */
-    #fireworks {
-      position: fixed;
-      inset: 0;
-      z-index: 999;
-      pointer-events: none;
-    }
+    #fireworks { position: fixed; inset: 0; z-index: 999; pointer-events: none; }
   </style>
 </head>
 <body>
@@ -430,160 +302,127 @@
     <div class="game-hint">Nhấn Space / Click / Chạm để bay</div>
   </div>
 
-  <div class="card">
-    <div class="brand">
-      <div class="brand-dot"></div>
-      <span class="brand-text">TNT</span>
-    </div>
+  <!-- Bento Grid Profile -->
+  <div class="profile">
 
-    <div class="avatar-wrap">
-      <div class="avatar-ring"></div>
-      <div class="avatar-inner">
-        <img src="avatar.png" alt="Nguyễn Vương Anh">
+    <!-- Avatar -->
+    <div class="bento cell-avatar">
+      <img src="avatar.png" alt="Nguyễn Vương Anh">
+      <div class="avatar-label">
+        <div class="status-dot"></div>
+        <span class="status-text">Online</span>
       </div>
     </div>
 
-    <div class="name">Nguyễn Vương Anh</div>
-    <div class="position">Digital Transformation · <span>TNT</span></div>
-
-    <div class="divider"></div>
-
-    <div class="buttons">
-      <a class="btn btn-zalo" href="https://zalo.me/0373417849" target="_blank">
-        <div class="zalo-icon">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2C6.48 2 2 6.02 2 11c0 2.7 1.24 5.12 3.2 6.8L4 20l2.8-1.4C8.1 19.47 10 20 12 20c5.52 0 10-4.02 10-9S17.52 2 12 2z" fill="#0068ff"/>
-            <text x="5.5" y="15.5" font-family="Arial" font-size="9" font-weight="bold" fill="white">Zalo</text>
-          </svg>
-        </div>
-        Nhắn tin Zalo
-      </a>
-
-      <button class="btn btn-gift" onclick="launchFireworks()">
-        <span class="btn-icon">🎁</span>
-        Tặng quà
-      </button>
-
-      <button class="btn" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.8);" onclick="openGame()">
-        <span class="btn-icon">🎮</span>
-        Trò chơi
-      </button>
+    <!-- Info -->
+    <div class="bento cell-info">
+      <div class="brand-tag"><span>TNT</span></div>
+      <div class="info-name">Nguyễn<br>Vương Anh</div>
+      <div class="info-role">Digital Transformation<br><strong>TNT Group</strong></div>
     </div>
 
-    <!-- Message Section -->
-    <div class="msg-section">
-      <button class="msg-toggle" onclick="toggleMsg()">
-        <span>✉️</span> Để lại lời nhắn
+    <!-- Zalo -->
+    <a class="bento cell-zalo" href="https://zalo.me/0373417849" target="_blank">
+      <div class="zalo-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C6.48 2 2 6.02 2 11c0 2.7 1.24 5.12 3.2 6.8L4 20l2.8-1.4C8.1 19.47 10 20 12 20c5.52 0 10-4.02 10-9S17.52 2 12 2z" fill="white"/>
+          <text x="5.5" y="15.5" font-family="Arial" font-size="9" font-weight="bold" fill="#0068ff">Zalo</text>
+        </svg>
+      </div>
+      <div class="zalo-text">
+        <div class="t1">Nhắn tin Zalo</div>
+        <div class="t2">Kết nối ngay</div>
+      </div>
+      <span class="zalo-arrow">›</span>
+    </a>
+
+    <!-- Gift -->
+    <button class="bento cell-gift" onclick="launchFireworks()">
+      <span class="cell-emoji">🎁</span>
+      <span class="cell-label">Tặng quà</span>
+    </button>
+
+    <!-- Game -->
+    <button class="bento cell-game" onclick="openGame()">
+      <span class="cell-emoji">🎮</span>
+      <span class="cell-label">Trò chơi</span>
+    </button>
+
+    <!-- Message -->
+    <div class="bento cell-msg">
+      <button class="msg-toggle" id="msgToggleBtn" onclick="toggleMsg()">
+        <span class="ico">✉️</span>
+        <span class="lbl">Để lại lời nhắn</span>
+        <span class="chevron">▼</span>
       </button>
-      <div class="msg-form" id="msgForm">
+      <div class="msg-body" id="msgForm">
         <label>Tên của bạn</label>
         <input type="text" id="senderName" placeholder="Nhập tên của bạn...">
         <label>Lời nhắn</label>
-        <textarea id="msgText" rows="4" placeholder="Nhập lời nhắn cho Vương Anh..."></textarea>
+        <textarea id="msgText" rows="3" placeholder="Nhập lời nhắn cho Vương Anh..."></textarea>
         <button class="btn-send" id="sendBtn" onclick="sendMessage()">
           <span>📨</span> Gửi lời nhắn
         </button>
         <div class="msg-status" id="msgStatus"></div>
       </div>
     </div>
+
   </div>
 
   <script>
+    // ===== FIREWORKS =====
     const canvas = document.getElementById('fireworks');
     const ctx = canvas.getContext('2d');
-    let particles = [];
-    let animFrame;
-    let running = false;
-
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize);
+    let particles = [], animFrame, running = false;
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize(); window.addEventListener('resize', resize);
 
     class Particle {
       constructor(x, y, color) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
-        const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 8 + 2;
+        this.x = x; this.y = y; this.color = color;
+        const angle = Math.random() * Math.PI * 2, speed = Math.random() * 8 + 2;
         this.vx = Math.cos(angle) * speed;
         this.vy = Math.sin(angle) * speed - Math.random() * 3;
-        this.alpha = 1;
-        this.decay = Math.random() * 0.015 + 0.01;
-        this.size = Math.random() * 4 + 2;
-        this.gravity = 0.12;
-        this.trail = [];
+        this.alpha = 1; this.decay = Math.random() * 0.015 + 0.01;
+        this.size = Math.random() * 4 + 2; this.gravity = 0.12; this.trail = [];
       }
       update() {
         this.trail.push({ x: this.x, y: this.y, alpha: this.alpha });
         if (this.trail.length > 6) this.trail.shift();
-        this.vx *= 0.98;
-        this.vy += this.gravity;
-        this.x += this.vx;
-        this.y += this.vy;
-        this.alpha -= this.decay;
+        this.vx *= 0.98; this.vy += this.gravity;
+        this.x += this.vx; this.y += this.vy; this.alpha -= this.decay;
       }
       draw() {
         this.trail.forEach((t, i) => {
-          ctx.save();
-          ctx.globalAlpha = t.alpha * (i / this.trail.length) * 0.4;
-          ctx.fillStyle = this.color;
-          ctx.beginPath();
+          ctx.save(); ctx.globalAlpha = t.alpha * (i / this.trail.length) * 0.4;
+          ctx.fillStyle = this.color; ctx.beginPath();
           ctx.arc(t.x, t.y, this.size * (i / this.trail.length) * 0.6, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.restore();
+          ctx.fill(); ctx.restore();
         });
-        ctx.save();
-        ctx.globalAlpha = this.alpha;
-        ctx.fillStyle = this.color;
-        ctx.shadowBlur = 12;
-        ctx.shadowColor = this.color;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
+        ctx.save(); ctx.globalAlpha = this.alpha; ctx.fillStyle = this.color;
+        ctx.shadowBlur = 12; ctx.shadowColor = this.color;
+        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.restore();
       }
     }
-
     class Star {
       constructor(x, y) {
-        this.x = x; this.y = y;
-        this.alpha = 1;
-        this.size = Math.random() * 3 + 1;
-        this.decay = 0.02;
-        this.vy = Math.random() * -2 - 0.5;
-        this.vx = (Math.random() - 0.5) * 0.5;
+        this.x = x; this.y = y; this.alpha = 1;
+        this.size = Math.random() * 3 + 1; this.decay = 0.02;
+        this.vy = Math.random() * -2 - 0.5; this.vx = (Math.random() - 0.5) * 0.5;
       }
       update() { this.x += this.vx; this.y += this.vy; this.alpha -= this.decay; }
       draw() {
-        ctx.save();
-        ctx.globalAlpha = this.alpha;
-        ctx.fillStyle = '#fff';
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = '#fff';
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
+        ctx.save(); ctx.globalAlpha = this.alpha; ctx.fillStyle = '#fff';
+        ctx.shadowBlur = 8; ctx.shadowColor = '#fff';
+        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.restore();
       }
     }
-
-    const COLORS = [
-      '#ff6b6b','#ffd93d','#6bcb77','#4d96ff',
-      '#ff6bb5','#c77dff','#ff9f1c','#00f5d4',
-      '#f72585','#7209b7','#3a86ff','#fb5607'
-    ];
-
+    const COLORS = ['#ff6b6b','#ffd93d','#6bcb77','#4d96ff','#ff6bb5','#c77dff','#ff9f1c','#00f5d4','#f72585','#7209b7','#3a86ff','#fb5607'];
     function explode(x, y) {
       const color = COLORS[Math.floor(Math.random() * COLORS.length)];
-      const count = Math.floor(Math.random() * 60 + 80);
-      for (let i = 0; i < count; i++) particles.push(new Particle(x, y, color));
+      for (let i = 0; i < Math.floor(Math.random()*60+80); i++) particles.push(new Particle(x, y, color));
       for (let i = 0; i < 20; i++) particles.push(new Star(x, y));
     }
-
     function loop() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles = particles.filter(p => p.alpha > 0);
@@ -591,226 +430,150 @@
       if (particles.length > 0) animFrame = requestAnimationFrame(loop);
       else { running = false; ctx.clearRect(0, 0, canvas.width, canvas.height); }
     }
+    function launchFireworks() {
+      const W = canvas.width, H = canvas.height;
+      let i = 0;
+      function fire() {
+        if (i >= 10) return;
+        explode(W * 0.15 + Math.random() * W * 0.7, H * 0.1 + Math.random() * H * 0.5);
+        i++; setTimeout(fire, Math.random() * 300 + 100);
+      }
+      fire();
+      if (!running) { running = true; loop(); }
+    }
 
     // ===== FLAPPY BIRD GAME =====
     const gc = document.getElementById('gameCanvas');
     const gx = gc.getContext('2d');
     const GW = gc.width, GH = gc.height;
-
-    let bird, pipes, score, best, gameState, gLoop;
-
     const BIRD_R = 16, PIPE_W = 52, PIPE_GAP = 140, PIPE_SPEED = 2.4, GRAVITY = 0.38, FLAP = -7.5;
-
     const GC = { pipe: '#7c3aed', pipeLight: '#a78bfa', bird: '#fbbf24', birdEye: '#1a1a2e' };
+    let bird, pipes, score, best, gameState, gLoop, pipeTimer;
 
     function resetGame() {
       bird = { x: 80, y: GH / 2, vy: 0, angle: 0 };
-      pipes = [];
-      score = 0;
+      pipes = []; score = 0;
       if (best === undefined) best = 0;
-      gameState = 'ready'; // ready | playing | dead
+      gameState = 'ready'; pipeTimer = 0;
     }
-
     function spawnPipe() {
       const top = 80 + Math.random() * (GH - PIPE_GAP - 140);
       pipes.push({ x: GW, top, bottom: top + PIPE_GAP });
     }
-
     function flap() {
       if (gameState === 'dead') { resetGame(); return; }
       if (gameState === 'ready') gameState = 'playing';
       bird.vy = FLAP;
     }
-
     function drawBird() {
-      gx.save();
-      gx.translate(bird.x, bird.y);
-      gx.rotate(bird.angle);
-      // Body
-      gx.fillStyle = GC.bird;
-      gx.shadowBlur = 16; gx.shadowColor = '#fbbf24';
-      gx.beginPath();
-      gx.ellipse(0, 0, BIRD_R, BIRD_R - 2, 0, 0, Math.PI * 2);
-      gx.fill();
-      gx.shadowBlur = 0;
-      // Wing
-      gx.fillStyle = '#f59e0b';
-      gx.beginPath();
-      gx.ellipse(-4, 4, 8, 5, -0.4, 0, Math.PI * 2);
-      gx.fill();
-      // Eye
-      gx.fillStyle = GC.birdEye;
-      gx.beginPath();
-      gx.arc(6, -4, 4, 0, Math.PI * 2);
-      gx.fill();
-      gx.fillStyle = '#fff';
-      gx.beginPath();
-      gx.arc(7, -5, 1.5, 0, Math.PI * 2);
-      gx.fill();
-      // Beak
-      gx.fillStyle = '#f97316';
-      gx.beginPath();
-      gx.moveTo(BIRD_R - 2, 0); gx.lineTo(BIRD_R + 8, 3); gx.lineTo(BIRD_R - 2, 5);
-      gx.fill();
+      gx.save(); gx.translate(bird.x, bird.y); gx.rotate(bird.angle);
+      gx.fillStyle = GC.bird; gx.shadowBlur = 16; gx.shadowColor = '#fbbf24';
+      gx.beginPath(); gx.ellipse(0, 0, BIRD_R, BIRD_R - 2, 0, 0, Math.PI * 2); gx.fill();
+      gx.shadowBlur = 0; gx.fillStyle = '#f59e0b';
+      gx.beginPath(); gx.ellipse(-4, 4, 8, 5, -0.4, 0, Math.PI * 2); gx.fill();
+      gx.fillStyle = GC.birdEye; gx.beginPath(); gx.arc(6, -4, 4, 0, Math.PI * 2); gx.fill();
+      gx.fillStyle = '#fff'; gx.beginPath(); gx.arc(7, -5, 1.5, 0, Math.PI * 2); gx.fill();
+      gx.fillStyle = '#f97316'; gx.beginPath();
+      gx.moveTo(BIRD_R - 2, 0); gx.lineTo(BIRD_R + 8, 3); gx.lineTo(BIRD_R - 2, 5); gx.fill();
       gx.restore();
     }
-
     function drawPipe(p) {
-      // Top pipe
-      gx.fillStyle = GC.pipe;
-      gx.shadowBlur = 10; gx.shadowColor = GC.pipeLight;
+      gx.fillStyle = GC.pipe; gx.shadowBlur = 10; gx.shadowColor = GC.pipeLight;
       gx.fillRect(p.x, 0, PIPE_W, p.top);
-      // Top cap
-      gx.fillStyle = GC.pipeLight;
-      gx.shadowBlur = 0;
+      gx.fillStyle = GC.pipeLight; gx.shadowBlur = 0;
       gx.fillRect(p.x - 4, p.top - 18, PIPE_W + 8, 18);
-      // Bottom pipe
-      gx.fillStyle = GC.pipe;
-      gx.shadowBlur = 10; gx.shadowColor = GC.pipeLight;
+      gx.fillStyle = GC.pipe; gx.shadowBlur = 10; gx.shadowColor = GC.pipeLight;
       gx.fillRect(p.x, p.bottom, PIPE_W, GH - p.bottom);
-      // Bottom cap
-      gx.fillStyle = GC.pipeLight;
-      gx.shadowBlur = 0;
+      gx.fillStyle = GC.pipeLight; gx.shadowBlur = 0;
       gx.fillRect(p.x - 4, p.bottom, PIPE_W + 8, 18);
     }
-
     function drawBg() {
       const grad = gx.createLinearGradient(0, 0, 0, GH);
-      grad.addColorStop(0, '#0d1b3e');
-      grad.addColorStop(1, '#16213e');
-      gx.fillStyle = grad;
-      gx.fillRect(0, 0, GW, GH);
-      // Stars
+      grad.addColorStop(0, '#0d1b3e'); grad.addColorStop(1, '#16213e');
+      gx.fillStyle = grad; gx.fillRect(0, 0, GW, GH);
       gx.fillStyle = 'rgba(255,255,255,0.3)';
       [[40,60],[120,30],[200,90],[280,45],[60,200],[160,150],[250,180],[300,120]].forEach(([x,y]) => {
         gx.beginPath(); gx.arc(x, y, 1.2, 0, Math.PI*2); gx.fill();
       });
     }
-
     function drawUI() {
-      // Score
-      gx.font = 'bold 36px Inter, sans-serif';
-      gx.textAlign = 'center';
-      gx.fillStyle = 'rgba(255,255,255,0.15)';
-      gx.fillText(score, GW/2 + 2, 62);
-      gx.fillStyle = '#fff';
-      gx.shadowBlur = 8; gx.shadowColor = '#fff';
-      gx.fillText(score, GW/2, 60);
-      gx.shadowBlur = 0;
-
+      gx.font = 'bold 36px Inter, sans-serif'; gx.textAlign = 'center';
+      gx.fillStyle = 'rgba(255,255,255,0.15)'; gx.fillText(score, GW/2+2, 62);
+      gx.fillStyle = '#fff'; gx.shadowBlur = 8; gx.shadowColor = '#fff';
+      gx.fillText(score, GW/2, 60); gx.shadowBlur = 0;
       if (gameState === 'ready') {
-        gx.fillStyle = 'rgba(0,0,0,0.45)';
-        gx.beginPath();
-        gx.roundRect(GW/2 - 100, GH/2 - 40, 200, 80, 16);
-        gx.fill();
-        gx.font = 'bold 20px Inter, sans-serif';
-        gx.fillStyle = '#fff';
-        gx.fillText('Nhấn để bắt đầu!', GW/2, GH/2 + 8);
+        gx.fillStyle = 'rgba(0,0,0,0.45)'; gx.beginPath();
+        gx.roundRect(GW/2-100, GH/2-40, 200, 80, 16); gx.fill();
+        gx.font = 'bold 20px Inter, sans-serif'; gx.fillStyle = '#fff';
+        gx.fillText('Nhấn để bắt đầu!', GW/2, GH/2+8);
       }
-
       if (gameState === 'dead') {
-        gx.fillStyle = 'rgba(0,0,0,0.6)';
-        gx.beginPath();
-        gx.roundRect(GW/2 - 110, GH/2 - 70, 220, 140, 20);
-        gx.fill();
-        gx.font = 'bold 26px Inter, sans-serif';
-        gx.fillStyle = '#ef4444';
-        gx.fillText('Game Over!', GW/2, GH/2 - 30);
-        gx.font = '16px Inter, sans-serif';
-        gx.fillStyle = '#fff';
-        gx.fillText(`Điểm: ${score}   Cao nhất: ${best}`, GW/2, GH/2 + 5);
-        gx.font = 'bold 15px Inter, sans-serif';
-        gx.fillStyle = '#a78bfa';
-        gx.fillText('Nhấn để chơi lại', GW/2, GH/2 + 40);
+        gx.fillStyle = 'rgba(0,0,0,0.6)'; gx.beginPath();
+        gx.roundRect(GW/2-110, GH/2-70, 220, 140, 20); gx.fill();
+        gx.font = 'bold 26px Inter, sans-serif'; gx.fillStyle = '#ef4444';
+        gx.fillText('Game Over!', GW/2, GH/2-30);
+        gx.font = '16px Inter, sans-serif'; gx.fillStyle = '#fff';
+        gx.fillText(`Điểm: ${score}   Cao nhất: ${best}`, GW/2, GH/2+5);
+        gx.font = 'bold 15px Inter, sans-serif'; gx.fillStyle = '#a78bfa';
+        gx.fillText('Nhấn để chơi lại', GW/2, GH/2+40);
       }
     }
-
-    let pipeTimer = 0;
     function gameFrame() {
       drawBg();
-
       if (gameState === 'playing') {
-        // Bird physics
-        bird.vy += GRAVITY;
-        bird.y += bird.vy;
+        bird.vy += GRAVITY; bird.y += bird.vy;
         bird.angle = Math.min(Math.max(bird.vy * 0.06, -0.5), 1.2);
-
-        // Pipes
         pipeTimer++;
         if (pipeTimer > 90) { spawnPipe(); pipeTimer = 0; }
         pipes.forEach(p => p.x -= PIPE_SPEED);
         pipes = pipes.filter(p => p.x + PIPE_W > 0);
-
-        // Score
-        pipes.forEach(p => {
-          if (!p.passed && p.x + PIPE_W < bird.x) { p.passed = true; score++; if (score > best) best = score; }
-        });
-
-        // Collision
+        pipes.forEach(p => { if (!p.passed && p.x + PIPE_W < bird.x) { p.passed = true; score++; if (score > best) best = score; } });
         const hit = bird.y - BIRD_R < 0 || bird.y + BIRD_R > GH ||
           pipes.some(p => bird.x + BIRD_R - 6 > p.x && bird.x - BIRD_R + 6 < p.x + PIPE_W &&
             (bird.y - BIRD_R + 4 < p.top || bird.y + BIRD_R - 4 > p.bottom));
-        if (hit) { gameState = 'dead'; }
+        if (hit) gameState = 'dead';
       }
-
-      pipes.forEach(drawPipe);
-      drawBird();
-      drawUI();
+      pipes.forEach(drawPipe); drawBird(); drawUI();
       gLoop = requestAnimationFrame(gameFrame);
     }
-
     function openGame() {
       document.getElementById('gameModal').classList.add('open');
-      resetGame();
-      if (gLoop) cancelAnimationFrame(gLoop);
-      pipeTimer = 0;
-      gameFrame();
+      resetGame(); if (gLoop) cancelAnimationFrame(gLoop); gameFrame();
     }
-
     function closeGame() {
       document.getElementById('gameModal').classList.remove('open');
       if (gLoop) cancelAnimationFrame(gLoop);
     }
-
     gc.addEventListener('click', flap);
     gc.addEventListener('touchstart', e => { e.preventDefault(); flap(); }, { passive: false });
     document.addEventListener('keydown', e => {
-      if (e.code === 'Space' && document.getElementById('gameModal').classList.contains('open')) {
-        e.preventDefault(); flap();
-      }
+      if (e.code === 'Space' && document.getElementById('gameModal').classList.contains('open')) { e.preventDefault(); flap(); }
     });
 
-    // ===== TELEGRAM =====
+    // ===== MESSAGE =====
     const TG_TOKEN = '8679610062:AAHgcHt1Hyfunn9P1HfvBY7sloQ3TxTs75k';
     const TG_CHAT  = '6283486438';
 
     function toggleMsg() {
       const form = document.getElementById('msgForm');
+      const btn  = document.getElementById('msgToggleBtn');
       form.classList.toggle('open');
+      btn.classList.toggle('open');
     }
-
     async function sendMessage() {
       const name = document.getElementById('senderName').value.trim();
       const text = document.getElementById('msgText').value.trim();
       const btn  = document.getElementById('sendBtn');
       const status = document.getElementById('msgStatus');
-
       if (!name || !text) {
         status.className = 'msg-status error';
-        status.textContent = '⚠️ Vui lòng điền đầy đủ tên và lời nhắn!';
-        return;
+        status.textContent = '⚠️ Vui lòng điền đầy đủ tên và lời nhắn!'; return;
       }
-
-      btn.disabled = true;
-      btn.innerHTML = '<span>⏳</span> Đang gửi...';
-      status.className = 'msg-status';
-
+      btn.disabled = true; btn.innerHTML = '<span>⏳</span> Đang gửi...'; status.className = 'msg-status';
       const message = `💌 <b>Lời nhắn mới từ Digital Profile</b>\n\n👤 <b>Người gửi:</b> ${name}\n📝 <b>Nội dung:</b>\n${text}`;
-
       try {
         const res = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ chat_id: TG_CHAT, text: message, parse_mode: 'HTML' })
         });
         const data = await res.json();
@@ -820,33 +583,13 @@
           document.getElementById('senderName').value = '';
           document.getElementById('msgText').value = '';
           launchFireworks();
-        } else {
-          throw new Error(data.description);
-        }
+        } else throw new Error(data.description);
       } catch (err) {
         status.className = 'msg-status error';
         status.textContent = '❌ Gửi thất bại. Vui lòng thử lại!';
-        console.error(err);
       } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<span>📨</span> Gửi lời nhắn';
+        btn.disabled = false; btn.innerHTML = '<span>📨</span> Gửi lời nhắn';
       }
-    }
-
-    function launchFireworks() {
-      const W = canvas.width, H = canvas.height;
-      const count = 10;
-      let i = 0;
-      function fire() {
-        if (i >= count) return;
-        const x = W * 0.15 + Math.random() * W * 0.7;
-        const y = H * 0.1 + Math.random() * H * 0.5;
-        explode(x, y);
-        i++;
-        setTimeout(fire, Math.random() * 300 + 100);
-      }
-      fire();
-      if (!running) { running = true; loop(); }
     }
   </script>
 </body>
